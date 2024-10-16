@@ -1,12 +1,22 @@
 {
-  "name": "xblock",
+  "name": "consumer",
   "version": "1.0.0",
-  "description": "XBlock monorepo",
+  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "firehose": "tsx lib/firehose.ts",
+    "worker": "tsx lib/worker.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@skyware/jetstream": "^0.1.9",
+    "@types/node": "^22.7.6",
+    "better-queue": "^3.8.12",
+    "bullmq": "^5.20.0",
+    "debug": "^4.3.7",
+    "tsx": "^4.19.1",
+    "ws": "^8.18.0"
+  }
 }
