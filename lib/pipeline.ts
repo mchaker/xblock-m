@@ -10,15 +10,19 @@ import {
 
 import { dispatchCallback } from "@xenova/transformers/src/utils/core.js";
 
-export async function pipeline({
-  quantized = true,
-  progress_callback = null,
-  config = null,
-  cache_dir = null,
-  local_files_only = false,
-  revision = "main",
-  model_file_name = null,
-} = {}) {
+export async function pipeline(
+  task = "multi-label-image-classification",
+  model = "howdyaendra/microsoft-swinv2-small-patch4-window16-256-finetuned-xblockm",
+  {
+    quantized = true,
+    progress_callback = null,
+    config = null,
+    cache_dir = null,
+    local_files_only = false,
+    revision = "main",
+    model_file_name = null,
+  } = {}
+) {
   // Helper method to construct pipeline
 
   // Get pipeline info
@@ -29,9 +33,6 @@ export async function pipeline({
     type: "multimodal",
   };
 
-  const model =
-    "howdyaendra/microsoft-swinv2-small-patch4-window16-256-finetuned-xblockm";
-  const task = "multi-label-image-classification";
   const pretrainedOptions = {
     quantized,
     progress_callback,
