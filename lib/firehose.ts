@@ -1,3 +1,8 @@
+/**
+ * @file
+ * Jetstream firehose consumer
+ */
+
 import { Jetstream } from "@skyware/jetstream";
 import WebSocket from "ws";
 import debug from "debug";

@@ -1,3 +1,12 @@
+/**
+ * @file
+ * This is a lot of overridden stuff from Transformers.js to facilitate me using a
+ * SwinV2 model in conjunction with multi-label inference (e.g., sigmoid over softmax).
+ *
+ * You probably just want to import `pipeline` from @xenova/transformers and use that instead if you're
+ * not using a fine-tuned multi-label model.
+ */
+
 import {
   AutoProcessor,
   getTopItems,

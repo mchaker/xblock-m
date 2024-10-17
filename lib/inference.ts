@@ -1,3 +1,10 @@
+/**
+ * @file
+ * This is where all the inference work happens.
+ *
+ * IF YOU'RE BUILDING YOUR OWN THING, THIS IS A GOOD PLACE TO START
+ */
+
 import { CommitCreateEvent } from "@skyware/jetstream";
 import { Job } from "bullmq";
 
