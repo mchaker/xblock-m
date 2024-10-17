@@ -5,8 +5,7 @@ import { Queue } from "bullmq";
 
 export const queue = new Queue("firehose", {
   connection: {
-    host: "myredis.taskforce.run",
-    port: 32856,
+    host: "redis",
   },
 });
 

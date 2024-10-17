@@ -12,34 +12,22 @@ services:
       timeout: 5s
       retries: 10
     volumes:
-      - type: bind
-        source: /xblock/redis
-        target: /var/redis
+      - redis:/var/redis
 
   firehose:
     container_name: firehose
-    image: aendra/xblock-processor:latest
-    ports:
-      - 8000:8000
+    image: aendra/xblock:latest
     depends_on:
       - redis
     command: npm run firehose
 
   worker:
     container_name: worker
-    image: aendra/xblock-processor:latest
+    image: aendra/xblock:latest
     depends_on:
       - redis
-      - queue
+      - firehose
     command: npm run worker
 
-  dashboard:
-    container_name: dashboard
-    image: cjlapao/rq-dashboard:latest
-    environment:
-      - RQ_DASHBOARD_BIND=0.0.0.0
-      - RQ_DASHBOARD_REDIS_URL=redis://redis:6379
-    depends_on:
-      - redis
-    ports:
-      - 9181:9181
+volumes:
+  redis:
