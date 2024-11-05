@@ -51,7 +51,7 @@ export const createLabel = async (
     .join("\n");
 
   console.log(
-    `at://${post.did}/${post.commit.collection}/${post.commit.cid}`,
+    `at://${post.did}/${post.commit.collection}/${post.commit.rkey}`,
     labels,
     comment
   );
@@ -60,7 +60,7 @@ export const createLabel = async (
 
   const reference = new PostReference(
     {
-      uri: `at://${post.did}/${post.commit.collection}/${post.commit.cid}`,
+      uri: `at://${post.did}/${post.commit.collection}/${post.commit.rkey}`,
       cid: post.commit.cid,
     },
     bot
