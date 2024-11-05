@@ -10,7 +10,8 @@ export const worker = new Worker(
   `${process.cwd()}/lib/inference.ts`,
   {
     connection: {
-      host: "redis",
+      host: process.env.REDIS_HOSTNAME ?? "redis",
     },
+    concurrency: Number(process.env.WORKER_CONCURRENCY ?? 2),
   }
 );

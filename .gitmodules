@@ -1,0 +1,3 @@
+[submodule "microsoft-swinv2-small-patch4-window16-256-finetuned-xblockm"]
+	path = models/howdyaendra/microsoft-swinv2-small-patch4-window16-256-finetuned-xblockm
+	url = https://huggingface.co/howdyaendra/microsoft-swinv2-small-patch4-window16-256-finetuned-xblockm

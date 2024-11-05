@@ -4,20 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "firehose": "tsx lib/firehose.ts",
-    "worker": "tsx lib/worker.ts"
+    "firehose": "tsx -r dotenv/config lib/firehose.ts",
+    "worker": "tsx -r dotenv/config lib/worker.ts",
+    "dashboard": "tsx -r dotenv/config lib/dashboard.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@skyware/jetstream": "^0.1.9",
+    "@bull-board/express": "^6.3.3",
+    "@skyware/bot": "^0.3.7",
+    "@skyware/jetstream": "^0.2.0",
+    "@types/lodash.zip": "^4.2.9",
     "@types/node": "^22.7.6",
     "@xenova/transformers": "^2.17.2",
     "better-queue": "^3.8.12",
     "bullmq": "^5.20.0",
     "debug": "^4.3.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "lodash.zip": "^4.2.0",
     "tsx": "^4.19.1",
     "ws": "^8.18.0"
+  },
+  "volta": {
+    "node": "22.11.0"
   }
 }

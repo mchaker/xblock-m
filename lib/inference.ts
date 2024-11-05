@@ -2,15 +2,23 @@
  * @file
  * This is where all the inference work happens.
  *
- * IF YOU'RE BUILDING YOUR OWN THING, THIS IS A GOOD PLACE TO START
  */
+import { env } from "@xenova/transformers";
 
+env.backends.onnx.wasm.numThreads = 1;
+env.allowRemoteModels = false;
+env.localModelPath = "./models";
+// console.log(env);
+
+import { THRESHOLD } from "./constants";
 import { CommitCreateEvent } from "@skyware/jetstream";
 import { Job } from "bullmq";
+import zip from "lodash.zip";
 
 // Uncomment the following and comment out the line after to use another pretrained model
 // import { pipeline } from "@xenova/transformers";
 import { pipeline } from "./pipeline";
+import { createLabel } from "./moderate";
 
 // Allocate a pipeline
 const model = pipeline(
@@ -31,16 +39,20 @@ export default async function (
           `https://cdn.bsky.app/img/feed_fullsize/plain/${job.data.did}/${d.image.ref.$link}@jpeg`
       );
 
-      const results = await pipeline(urls);
-
-      // What you do with the results is up to you...
-
-      const filtered = results.filter((p) =>
-        p.some((d) => d.score > 0.75 && d.label !== "negative")
+      const results: { score: number; label: string }[][] = await pipeline(
+        urls
       );
-      if (filtered.length > 0) {
-        console.log(urls, filtered);
-      }
+
+      const items = zip(urls, results).filter(
+        ([_, scores]) =>
+          Math.max(
+            ...(scores
+              ?.filter((d) => d.label !== "negative")
+              .map((d) => d.score) ?? [])
+          ) >= THRESHOLD
+      );
+
+      await createLabel(job.data, items);
     }
   } catch (e) {
     console.error(e);

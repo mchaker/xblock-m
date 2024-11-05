@@ -10,7 +10,7 @@ import { Queue } from "bullmq";
 
 export const queue = new Queue("firehose", {
   connection: {
-    host: "redis",
+    host: process.env.REDIS_HOSTNAME ?? "redis",
   },
 });
 
