@@ -6,8 +6,14 @@
 import { env } from "@xenova/transformers";
 
 env.backends.onnx.wasm.numThreads = 1;
+env.backends.onnx.extra = {
+  mlas: {
+    enable_gemm_fastmath_arm64_bfloat16: 1,
+  },
+};
 env.allowRemoteModels = false;
 env.localModelPath = "./models";
+env;
 // console.log(env);
 
 import { THRESHOLD } from "./constants";
