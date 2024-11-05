@@ -41,12 +41,14 @@ export const createLabel = async (
     )
     .filter((i) => i);
 
-  const comment = images.map(
-    ([uri, scores]) =>
-      `${uri?.split("/").pop()?.split("@").shift()}: ${Object.values(
-        scores?.sort((a, b) => b.score - a.score).shift()!
-      ).join("-")}`
-  );
+  const comment = images
+    .map(
+      ([uri, scores]) =>
+        `${uri?.split("/").pop()?.split("@").shift()}: ${Object.values(
+          scores?.sort((a, b) => b.score - a.score).shift()!
+        ).join("-")}`
+    )
+    .join("\n");
 
   console.log(
     `at://${post.did}/${post.commit.collection}/${post.commit.cid}`,
@@ -54,19 +56,19 @@ export const createLabel = async (
     comment
   );
 
-  // await loggedIn;
+  await loggedIn;
 
-  // const reference = new PostReference(
-  //   {
-  //     uri: `at://${post.did}/${post.commit.collection}/${post.commit.cid}`,
-  //     cid: post.commit.cid,
-  //   },
-  //   bot
-  // );
+  const reference = new PostReference(
+    {
+      uri: `at://${post.did}/${post.commit.collection}/${post.commit.cid}`,
+      cid: post.commit.cid,
+    },
+    bot
+  );
 
-  // return bot.label({
-  //   reference,
-  //   labels,
-  //   comment,
-  // });
+  return bot.label({
+    reference,
+    labels,
+    comment,
+  });
 };
