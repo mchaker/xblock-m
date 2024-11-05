@@ -56,19 +56,22 @@ export const createLabel = async (
     comment
   );
 
-  await loggedIn;
+  try {
+    await loggedIn;
 
-  const reference = new PostReference(
-    {
-      uri: `at://${post.did}/${post.commit.collection}/${post.commit.rkey}`,
-      cid: post.commit.cid,
-    },
-    bot
-  );
-
-  return bot.label({
-    reference,
-    labels,
-    comment,
-  });
+    const reference = new PostReference(
+      {
+        uri: `at://${post.did}/${post.commit.collection}/${post.commit.rkey}`,
+        cid: post.commit.cid,
+      },
+      bot
+    );
+    bot.label({
+      reference,
+      labels,
+      comment,
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
