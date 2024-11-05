@@ -35,7 +35,9 @@ export const createLabel = async (
 
   const labels = images
     .flatMap(([, scores]) =>
-      scores?.filter((s) => s.score >= THRESHOLD).map((s) => `${s.label}-label`)
+      scores
+        ?.filter((s) => s.score >= THRESHOLD)
+        .map((s) => `${s.label.replace("news", "newsmedia")}-screenshot`)
     )
     .filter((i) => i);
 
