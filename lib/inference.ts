@@ -13,8 +13,8 @@ env.backends.onnx.extra = {
 };
 env.allowRemoteModels = false;
 env.localModelPath = "./models";
-env;
-// console.log(env);
+
+console.log(env);
 
 import { THRESHOLD } from "./constants";
 import { CommitCreateEvent } from "@skyware/jetstream";

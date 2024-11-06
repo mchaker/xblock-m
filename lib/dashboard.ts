@@ -4,7 +4,11 @@ import { createBullBoard } from "@bull-board/api";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { ExpressAdapter } from "@bull-board/express";
 
-const queueMQ = new Queue("firehose");
+const queueMQ = new Queue("firehose", {
+  connection: {
+    host: process.env.REDIS_HOSTNAME ?? "redis",
+  },
+});
 
 const serverAdapter = new ExpressAdapter();
 serverAdapter.setBasePath("/admin/queues");
