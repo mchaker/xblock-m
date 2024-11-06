@@ -11,7 +11,6 @@ import { Queue } from "bullmq";
 export const queue = new Queue("xblock", {
   connection: {
     host: process.env.REDIS_HOSTNAME ?? "redis",
-    tls: process.env.USE_REDIS_TLS ? {} : undefined,
   },
 });
 

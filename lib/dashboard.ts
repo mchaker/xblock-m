@@ -7,7 +7,6 @@ import { ExpressAdapter } from "@bull-board/express";
 const queueMQ = new Queue("xblock", {
   connection: {
     host: process.env.REDIS_HOSTNAME ?? "redis",
-    tls: process.env.USE_REDIS_TLS ? {} : undefined,
   },
 });
 
