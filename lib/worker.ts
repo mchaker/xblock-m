@@ -6,7 +6,7 @@
 import { Worker } from "bullmq";
 
 export const worker = new Worker(
-  "firehose",
+  "xblock",
   `${process.cwd()}/lib/inference.ts`,
   {
     connection: {

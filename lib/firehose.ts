@@ -8,7 +8,7 @@ import WebSocket from "ws";
 import debug from "debug";
 import { Queue } from "bullmq";
 
-export const queue = new Queue("firehose", {
+export const queue = new Queue("xblock", {
   connection: {
     host: process.env.REDIS_HOSTNAME ?? "redis",
   },
