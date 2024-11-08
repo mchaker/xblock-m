@@ -22,7 +22,10 @@ const jetstream = new Jetstream({
 });
 
 jetstream.onCreate("app.bsky.feed.post", (event) => {
-  if (event.commit.record.embed?.$type === "app.bsky.embed.images") {
+  if (
+    event.commit.record.embed?.$type === "app.bsky.embed.images" &&
+    event.commit.record.labels?.values.includes({ val: "en" })
+  ) {
     queue
       .add(
         `at://${event.did}/${event.commit.collection}/${event.commit.cid}`,
