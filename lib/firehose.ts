@@ -24,7 +24,7 @@ const jetstream = new Jetstream({
 jetstream.onCreate("app.bsky.feed.post", (event) => {
   if (
     event.commit.record.embed?.$type === "app.bsky.embed.images" &&
-    event.commit.record.labels?.values.includes({ val: "en" })
+    event.commit.record.langs?.includes("en")
   ) {
     queue
       .add(
