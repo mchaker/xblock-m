@@ -7,7 +7,7 @@
     "firehose": "tsx -r dotenv/config lib/firehose.ts",
     "worker": "tsx -r dotenv/config lib/worker.ts",
     "dashboard": "tsx -r dotenv/config lib/dashboard.ts",
-    "start": "concurrently npm:firehose npm:worker npm:dashboard"
+    "start:queue": "concurrently npm:firehose npm:dashboard"
   },
   "keywords": [],
   "author": "",
