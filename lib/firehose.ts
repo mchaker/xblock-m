@@ -21,18 +21,23 @@ const jetstream = new Jetstream({
   wantedCollections: ["app.bsky.feed.post"],
 });
 
+const batch: any = [];
+
 jetstream.onCreate("app.bsky.feed.post", (event) => {
   if (
     event.commit.record.embed?.$type === "app.bsky.embed.images" &&
     event.commit.record.langs?.includes("en")
   ) {
-    queue
-      .add(
-        `at://${event.did}/${event.commit.collection}/${event.commit.cid}`,
-        event,
-        { lifo: true }
-      )
-      .catch((e) => log(e));
+    batch.push(event);
+    if (batch.length >= 30) {
+      console.log(batch);
+      queue
+        .add(new Date().toISOString(), batch, { lifo: true })
+        .then(() => {
+          batch.length = 0;
+        })
+        .catch((e) => log(e));
+    }
   }
 });
 
