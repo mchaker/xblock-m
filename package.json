@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "firehose": "tsx -r dotenv/config lib/firehose.ts",
+    "firehose": "nodemon nodemon --exec 'tsx -r dotenv/config lib/firehose.ts'",
     "worker": "tsx -r dotenv/config lib/worker.ts",
     "dashboard": "tsx -r dotenv/config lib/dashboard.ts",
     "start:queue": "concurrently npm:firehose npm:dashboard"
@@ -26,6 +26,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "lodash.zip": "^4.2.0",
+    "nodemon": "^3.1.7",
     "tsx": "^4.19.1",
     "ws": "^8.18.0"
   },

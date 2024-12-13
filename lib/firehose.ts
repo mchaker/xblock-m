@@ -3,7 +3,7 @@
  * Jetstream firehose consumer
  */
 
-import { Jetstream } from "@skyware/jetstream";
+import { CommitCreateEvent, Jetstream } from "@skyware/jetstream";
 import WebSocket from "ws";
 import debug from "debug";
 import { Queue } from "bullmq";
@@ -21,23 +21,33 @@ const jetstream = new Jetstream({
   wantedCollections: ["app.bsky.feed.post"],
 });
 
-const batch: any = [];
+class Batch {
+  items: CommitCreateEvent<"app.bsky.feed.post">[] = [];
+  max = 5;
+
+  constructor(max: number) {
+    this.max = max;
+  }
+
+  add(item: CommitCreateEvent<"app.bsky.feed.post">) {
+    this.items.push(item);
+    if (this.items.length >= this.max) {
+      queue
+        .add(new Date().toISOString(), [...this.items], { lifo: false })
+        .catch((e) => console.error(e));
+      log(this.items);
+      this.items = [];
+    }
+  }
+}
+const batch = new Batch(Number(process.env.BATCH_SIZE ?? 1));
 
 jetstream.onCreate("app.bsky.feed.post", (event) => {
   if (
     event.commit.record.embed?.$type === "app.bsky.embed.images" &&
     event.commit.record.langs?.includes("en")
   ) {
-    batch.push(event);
-    if (batch.length >= 30) {
-      console.log(batch);
-      queue
-        .add(new Date().toISOString(), batch, { lifo: true })
-        .then(() => {
-          batch.length = 0;
-        })
-        .catch((e) => log(e));
-    }
+    batch.add(event);
   }
 });
 

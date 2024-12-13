@@ -11,6 +11,7 @@ client.configure_proxy_header("atproto_labeler", "did:plc:newitj5jo3uel7o4mnf3vj
 
 
 async def auth_client():
+    # This bit is broken if you restart the thing. You may need to delete session.txt and restart if you get token errors
     try:
         with open("session.txt") as f:
             session_string = f.read()
@@ -35,7 +36,7 @@ async def create_label(result):
         for image in result["image_results"]:
             for label, score in image["labels"].items():
                 if float(score) >= THRESHOLD:
-                    if label == "news":
+                    if label == "news" and float(score) >= 0.92:
                         add_labels.append("newsmedia-screenshot")
                         blob_cids.append(image["blob_cid"])
                     elif label != "negative":
@@ -45,9 +46,9 @@ async def create_label(result):
         if len(add_labels) > 0:
             data = {
                 "event": {
-                    "$type": "tools.ozone.moderation.defs#modEventTag",
-                    "add": add_labels,
-                    "remove": [],
+                    "$type": "tools.ozone.moderation.defs#modEventLabel",
+                    "createLabelVals": add_labels,
+                    "negateLabelVals": [],
                     "comment": f"model:howdyaendra/swin_s3_base_224-xblockm-timm",
                 },
                 "subject": {

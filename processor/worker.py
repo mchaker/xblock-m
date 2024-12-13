@@ -29,7 +29,7 @@ import aiohttp
 torch.set_num_threads(1)
 
 # Use environment variables
-NUM_WORKERS = 20
+NUM_WORKERS = 50
 MODEL_NAME = os.getenv("MODEL_NAME", "swin_s3_base_224-xblockm-timm")
 MODEL_PATH = os.getenv("MODEL_PATH", "./model")
 
@@ -269,7 +269,9 @@ async def main():
 
     # Feel free to remove the connection parameter, if your redis runs on localhost
     worker = Worker(
-        "xblock", process_request, {"connection": os.environ["REDIS_CONNECTION_STRING"]}
+        "xblock",
+        process_request,
+        {"connection": os.environ["REDIS_CONNECTION_STRING"], "concurrency": 50},
     )
 
     # Wait until the shutdown event is set

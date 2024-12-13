@@ -11,7 +11,7 @@ lerna-debug.log*
 __pycache__
 session.txt
 models
-
+.vscode
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
