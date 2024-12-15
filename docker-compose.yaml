@@ -16,6 +16,9 @@ services:
 
   firehose:
     container_name: firehose
+    build: .
+    env_file:
+      - .env
     image: aendra/xblock:latest
     depends_on:
       - redis
@@ -23,11 +26,25 @@ services:
 
   worker:
     container_name: worker
-    image: aendra/xblock:latest
+    image: aendra/xblock-worker-gpu:latest
+    ipc: host
+    build: .
+    env_file:
+      - .env
     depends_on:
       - redis
       - firehose
-    command: npm run worker
+    command: python3 processor/worker.py
+    volumes:
+      - ./model:/xblock/model
+      - ./models:/xblock/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
 volumes:
   redis:

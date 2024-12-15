@@ -15,7 +15,7 @@ from huggingface_hub import hf_hub_download
 from bullmq import Worker
 import asyncio
 import signal
-from moderate import create_label, auth_client
+#from moderate import create_label, auth_client
 import os
 from constants import THRESHOLD
 from dotenv import load_dotenv
@@ -235,7 +235,8 @@ async def process_request(job, token):
             for image_result in result["image_results"]:
                 for label, score in image_result.get("labels", {}).items():
                     if label != "negative" and float(score) > THRESHOLD:
-                        await create_label(result)
+                        pass
+                        #await create_label(result)
 
         return results if len(results) > 1 else results[0]
     except Exception as e:
@@ -252,7 +253,7 @@ def adjust_concurrency(current_concurrency):
 
 
 async def main():
-    await auth_client()
+    #await auth_client()
 
     # Create an event that will be triggered for shutdown
     shutdown_event = asyncio.Event()
