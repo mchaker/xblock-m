@@ -5,7 +5,8 @@ This is a more dev-friendly version of the XBlock firehose consumer. I've set it
 It uses Redis (via BullMQ) to manage a LIFO queue.
 
 ```bash
-docker build -t aendra/xblock:latest .
+./build-firehose-docker.sh
+./build-worker-gpu-docker.sh
 
-docker-compose up
+docker compose up
 ```
