@@ -12,8 +12,8 @@ RUN apt update && \
 
 RUN pip install --upgrade pip
 
-COPY ../lib /xblock/lib
-COPY ../processor /xblock/processor
+COPY ./lib /xblock/lib
+COPY ./processor /xblock/processor
 
 RUN pip3 install --use-deprecated=legacy-resolver -r ./processor/requirements.txt
 
